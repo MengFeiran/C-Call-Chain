@@ -36,6 +36,37 @@
   - `ms-vscode.cpptools`（微软 C/C++ 扩展），或
   - `llvm-vs-code-extensions.vscode-clangd`（clangd）。
 
+## 安装
+
+### 方法一：从 GitHub Releases 安装（推荐）
+
+1. 前往 [Releases 页面](https://github.com/MengFeiran/C-Call-Chain/releases)
+2. 下载最新版本的 `.vsix` 文件
+3. 在 VS Code 中：
+   - 打开命令面板（`Ctrl+Shift+P` / `Cmd+Shift+P`）
+   - 输入 `Extensions: Install from VSIX...`
+   - 选择下载的 `.vsix` 文件
+
+### 方法二：从源码构建
+
+```bash
+# 克隆仓库
+git clone https://github.com/MengFeiran/C-Call-Chain.git
+cd C-Call-Chain
+
+# 安装依赖
+npm install
+
+# 编译
+npm run compile
+
+# 打包为 .vsix 文件
+npx @vscode/vsce package
+
+# 安装生成的 .vsix 文件
+code --install-extension c-call-chain-0.0.1.vsix
+```
+
 ## 使用步骤
 
 1. 打开一个 C 文件，将光标放在某个函数上（或直接右键函数名）。
