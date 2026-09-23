@@ -1,0 +1,92 @@
+{
+  "name": "c-call-chain",
+  "displayName": "C Call Chain",
+  "description": "在底部面板展示 C 函数的双向调用链（调用者 / 被调用者）",
+  "version": "0.0.1",
+  "publisher": "local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "cCallChain.showCallChain",
+        "title": "显示函数调用链",
+        "category": "C Call Chain"
+      },
+      {
+        "command": "cCallChain.gotoDefinition",
+        "title": "跳转到函数定义"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "cCallChain.showCallChain",
+          "when": "editorLangId == c",
+          "group": "navigation@100"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "panel": [
+        {
+          "id": "cCallChainPanel",
+          "title": "C 函数调用链",
+          "icon": "$(call-outgoing)"
+        }
+      ]
+    },
+    "views": {
+      "cCallChainPanel": [
+        {
+          "id": "cCallChain.view",
+          "name": "调用链",
+          "contextualTitle": "C 函数调用链",
+          "type": "webview"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "C Call Chain",
+      "properties": {
+        "cCallChain.enableMacroIndex": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用宏近似：后台扫描工作区识别函数式宏并做近似展开。超大项目可关闭以节省资源。"
+        },
+        "cCallChain.enableFnPtrIndex": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用函数指针近似：把函数指针作为节点，按注册/调用关系连接。"
+        },
+        "cCallChain.fnPtrMemberThreshold": {
+          "type": "number",
+          "default": 20,
+          "description": "函数指针同族模糊回退的表达式数量上限：同成员名下、变量名互为前缀/后缀的指针表达式超过此值时视为过于通用，仅保留精确匹配。0 或负数表示禁用回退。调大更全但噪声更多，调小更干净但可能漏。"
+        },
+        "cCallChain.macroIndexMaxFiles": {
+          "type": "number",
+          "default": 2000,
+          "description": "宏索引最多扫描的 C/H 文件数量。"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.0",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^5.4.0"
+  }
+}

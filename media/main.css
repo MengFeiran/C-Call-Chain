@@ -1,0 +1,228 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--vscode-panel-background, var(--vscode-editor-background));
+  color: var(--vscode-foreground);
+  font-family: var(--vscode-font-family);
+  font-size: 12px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+#toolbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--vscode-panel-border, rgba(128, 128, 128, 0.35));
+}
+
+#toolbar button {
+  background: var(--vscode-button-secondaryBackground, transparent);
+  color: var(--vscode-button-secondaryForeground, var(--vscode-foreground));
+  border: 1px solid var(--vscode-panel-border, rgba(128, 128, 128, 0.35));
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 2px 8px;
+  font-size: 12px;
+}
+
+#toolbar button:hover {
+  background: var(--vscode-button-secondaryHoverBackground, rgba(128, 128, 128, 0.2));
+}
+
+#hint {
+  margin-left: auto;
+  min-width: 0;
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#canvas {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  cursor: grab;
+}
+
+/* 底部水平滚动条 */
+#hscroll {
+  display: none;
+  flex: 0 0 auto;
+  height: 12px;
+  position: relative;
+  background: var(--vscode-scrollbarSlider-background, rgba(128, 128, 128, 0.15));
+  border-top: 1px solid var(--vscode-panel-border, rgba(128, 128, 128, 0.35));
+}
+
+#hscroll.visible {
+  display: block;
+}
+
+#hthumb {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--vscode-scrollbarSlider-hoverBackground, rgba(128, 128, 128, 0.5));
+  cursor: pointer;
+}
+
+#hthumb:hover {
+  background: var(--vscode-scrollbarSlider-activeBackground, rgba(128, 128, 128, 0.8));
+}
+
+#canvas.dragging {
+  cursor: grabbing;
+}
+
+#svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.node {
+  cursor: pointer;
+}
+
+.node rect {
+  fill: var(--vscode-editorWidget-background, #252526);
+  stroke: var(--vscode-panel-border, #555);
+  stroke-width: 1.5;
+}
+
+.node.center rect {
+  stroke: var(--vscode-focusBorder, #007fd4);
+  stroke-width: 2.5;
+}
+
+.node:hover rect {
+  fill: var(--vscode-list-hoverBackground, rgba(128, 128, 128, 0.15));
+}
+
+.node text {
+  fill: var(--vscode-foreground);
+  font-size: 11px;
+  pointer-events: none;
+}
+
+.node text.name {
+  font-weight: 600;
+  dominant-baseline: middle;
+}
+
+.edge {
+  fill: none;
+  stroke-width: 1.4;
+  opacity: 0.8;
+}
+
+.edge.in {
+  stroke: var(--vscode-charts-blue, #3794ff);
+}
+
+.edge.out {
+  stroke: var(--vscode-charts-green, #89d185);
+}
+
+.arrow-in {
+  fill: var(--vscode-charts-blue, #3794ff);
+}
+
+.arrow-out {
+  fill: var(--vscode-charts-green, #89d185);
+}
+
+/* 宏近似推断的边：虚线 */
+.edge.approx {
+  stroke-dasharray: 5 4;
+  opacity: 0.6;
+}
+
+/* 宏近似推断的节点：橙色虚线边框 + 「宏」角标 */
+.node.possible rect {
+  stroke: var(--vscode-charts-orange, #d18616);
+  stroke-dasharray: 5 3;
+}
+
+.node.possible text.name {
+  fill: var(--vscode-charts-orange, #d18616);
+}
+
+/* 函数指针节点：紫色虚线边框 */
+.node.pointer rect {
+  stroke: var(--vscode-charts-purple, #b180d7);
+  stroke-dasharray: 4 3;
+}
+
+.node.pointer text.name {
+  fill: var(--vscode-charts-purple, #b180d7);
+}
+
+.badge {
+  font-size: 8px;
+  font-weight: 700;
+  pointer-events: none;
+  dominant-baseline: middle;
+}
+
+.badge-macro {
+  fill: var(--vscode-charts-orange, #d18616);
+}
+
+.badge-fnptr {
+  fill: var(--vscode-charts-purple, #b180d7);
+}
+
+.expand {
+  cursor: pointer;
+}
+
+.expand circle {
+  fill: var(--vscode-button-background, #0e639c);
+  stroke: var(--vscode-button-border, transparent);
+  stroke-width: 1;
+}
+
+.expand:hover circle {
+  fill: var(--vscode-button-hoverBackground, #1177bb);
+}
+
+.expand.loading circle {
+  fill: var(--vscode-descriptionForeground, #888);
+}
+
+.expand.minus circle {
+  fill: var(--vscode-descriptionForeground, #888);
+}
+
+.expand text {
+  fill: var(--vscode-button-foreground, #ffffff);
+  font-size: 11px;
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+}
+
+.empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  padding: 20px;
+  text-align: center;
+}
